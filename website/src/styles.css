@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+body,html{
+    -ms-scroll-chaining:none;
+    overscroll-behavior:none;
+    margin:0;
+    padding:0;
+    background-color: #191d2b;
+}
