@@ -1,0 +1,75 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Build and Deploy to Github Pages
+
+# Runs on pushes targeting the default branch
+on:
+  push:
+    branches: ["main"]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: ./website
+  
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [24.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          # Setup node doesn't use working directory
+          cache-dependency-path: '**/package-lock.json'
+      - name: Install Packages
+        run: npm ci
+      - name: Build Project
+        run: npm run build --if-present
+      - name: Run Tests
+        run: npm test -- --watch=false --browsers=ChromeHeadless
+      - name: Upload Pages Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: page
+          # Upload artifact doesn't use working directory
+          path: './website/dist/website'
+          if-no-files-found: error
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: page
+          path: .
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
