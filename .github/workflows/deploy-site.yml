@@ -47,7 +47,7 @@ jobs:
       #- name: Run Tests
       #  run: npm test -- --watch=false --browsers=chromiumHeadless
       - name: Upload Pages Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: page
           # Upload artifact doesn't use working directory
@@ -60,7 +60,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: page
           path: .
