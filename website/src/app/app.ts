@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SnowFlakeComponent } from './snowflake/snowflake';
+import { Snowflake } from './snowflake/snowflake';
 
 interface SnowFlakeConfig {
 	depth: number ;
@@ -10,7 +10,7 @@ interface SnowFlakeConfig {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SnowFlakeComponent],
+  imports: [RouterOutlet, Snowflake],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

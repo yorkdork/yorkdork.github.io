@@ -30,7 +30,7 @@ import { Component } from "@angular/core";
 		</div>
 	`
 })
-export class SnowFlakeComponent {
+export class Snowflake {
 
 	public depth: number;
 	public speed: number;
