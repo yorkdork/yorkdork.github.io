@@ -146,10 +146,6 @@
 
 }
 
-.display-image {
-    border-radius: 50%;
-}
-
 .page-title {
     font-size: 18px;
     font-weight: 700;
@@ -280,13 +276,14 @@
 }
 
 .display-image{
-    width:96px;
-    height:96px;
+    width:480px;
+    height:480px;
     display:block;
-    border-radius:50%;
+    /* border-radius:50%; */
     -o-object-fit:cover;
     object-fit:cover
 }
+
 .text-center{
     text-align:center
 }
